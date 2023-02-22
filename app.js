@@ -1,0 +1,31 @@
+require('dotenv').config();
+require('./passport-config');
+const express = require('express');
+const routes = require('./routes/api');
+const passport = require('passport');
+
+const app = express();
+const port = 3000;
+
+app.listen(port);
+
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
+
+// Session
+const session = require('express-session');
+app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false
+}))
+
+// Initializing passport
+app.use(passport.initialize());
+app.use(passport.session());
+
+// Get routes
+app.use('/api', routes);
+
+
+module.exports = app;
