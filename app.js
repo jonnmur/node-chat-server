@@ -1,6 +1,7 @@
 require('dotenv').config();
 require('./config/passport-config');
 const express = require('express');
+const session = require('express-session');
 const routes = require('./routes/api');
 const passport = require('passport');
 
@@ -13,7 +14,6 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 // Session
-const session = require('express-session');
 app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,
@@ -26,6 +26,5 @@ app.use(passport.session());
 
 // Get routes
 app.use('/api', routes);
-
 
 module.exports = app;

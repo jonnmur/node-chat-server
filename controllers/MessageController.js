@@ -18,6 +18,7 @@ const show = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
+    
     try {
         const message = await Message.findByPk(req.params.id, { include: User });
         return res.send(message);
