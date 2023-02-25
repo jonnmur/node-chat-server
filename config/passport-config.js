@@ -26,14 +26,14 @@ const strategy  = new LocalStrategy(authenticateUser);
 passport.use(strategy);
 
 passport.serializeUser((user, done) => {
-    done(null, user.id);
+    return done(null, user.id);
 });
 
 passport.deserializeUser(async (userId, done) => {
     try {
         const user = await User.findByPk(userId)
-        done(null, user);
+        return done(null, user);
     } catch (error) {
-        done(error);
+        return done(error);
     }
 });
