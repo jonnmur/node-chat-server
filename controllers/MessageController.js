@@ -33,7 +33,7 @@ const create = async (req, res) => {
     }
 
     if (req.body.body.trim().length === 0) {
-        return res.status(422).json();
+        return res.status(422).json({ message: 'Invalid message' });
     }
 
     try {

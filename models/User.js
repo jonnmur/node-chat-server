@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/db-config');
 const Sequelize = require('sequelize');
 const Message = require('./Message')
 
@@ -16,7 +16,9 @@ const User = db.define('User', {
     }
 }, {
     tableName: 'users',
-    timestamps: false,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
     defaultScope: {
         attributes: { exclude: ['password'] },
     },

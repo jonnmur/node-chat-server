@@ -6,15 +6,7 @@ const register = async (req, res) => {
     try {
         const user = await User.findOne({ where: { username: req.body.username } });
 
-        if (user) {
-            return res.status(422).json({ message: 'Invalid username' });
-        }
-
-        if (req.body.username.trim().length === 0) {
-            return res.status(422).json({ message: 'Invalid username' });
-        }
-
-        if (req.body.username.trim().length === 0) {
+        if (req.body.username.trim().length === 0 || user) {
             return res.status(422).json({ message: 'Invalid username' });
         }
 

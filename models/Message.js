@@ -1,4 +1,4 @@
-const db = require('../config/db');
+const db = require('../config/db-config');
 const Sequelize = require('sequelize');
 
 const Message = db.define('Message', {
@@ -15,7 +15,9 @@ const Message = db.define('Message', {
     }
 }, {
     tableName: 'messages',
-    timestamps: false,
+    timestamps: true,
+    createdAt: 'created_at',
+    updatedAt: 'updated_at',
 });
 
 module.exports = Message;
