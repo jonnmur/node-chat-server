@@ -17,7 +17,6 @@ app.use(express.urlencoded({ extended: true }));
 
 // Session
 const RedisStore = connectRedis(session);
-
 app.use(session({
     store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET,
@@ -25,11 +24,11 @@ app.use(session({
     saveUninitialized: false
 }))
 
-// Initializing passport
+// Passport
 app.use(passport.initialize());
 app.use(passport.session());
 
-// Get routes
+// Routes
 app.use('/api', routes);
 
 module.exports = app;
