@@ -1,5 +1,6 @@
 const db = require('../config/db-config');
 const Sequelize = require('sequelize');
+const User = require('./User');
 
 const Message = db.define('Message', {
     id: {

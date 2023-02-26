@@ -26,14 +26,14 @@ const User = db.define('User', {
         withPassword: {
             attributes: { },
         }
-    }
+    },
 });
 
 User.hasMany(Message, {
-    foreignKey: "user_id",
-    onDelete: "cascade",
-  });
-  
-Message.belongsTo(User, { foreignKey: "user_id" });
+    foreignKey: 'user_id',
+    onDelete: 'cascade',
+});
+
+Message.belongsTo(User, { foreignKey: 'user_id' });
 
 module.exports = User;

@@ -10,7 +10,27 @@ const connectRedis = require('connect-redis');
 const app = express();
 const port = 3000;
 
-app.listen(port);
+const server = require('http').createServer(app);
+
+// socket io
+const io = require('socket.io')(server, {
+    cors: {
+      origins: ['http://localhost:8080']
+    }
+});
+
+io.on('connection', (socket) => {
+    console.log('User connected');
+
+    socket.on('disconnect', () => {
+      console.log('User disconnected');
+    });
+});
+
+app.set('io', io);
+//
+
+server.listen(port);
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

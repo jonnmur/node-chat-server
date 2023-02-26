@@ -37,14 +37,19 @@ const create = async (req, res) => {
         return res.status(401).json();
     }
 
-    const { error, value } = createSchema.validate(req.body.trim());
+    const { error, value } = createSchema.validate(req.body);
 
     if (error) {
         return res.status(422).json(error.details);
     }
 
     try {
-        const message = await Message.create({ body: req.body.body, user_id: req.user.id}, { include: User });
+        const message = await Message.create({ body: req.body.body.trim(), user_id: req.user.id }, { include: User });
+
+        await message.reload();
+
+        req.app.get('io').emit('newMessage', message);
+
         return res.send(message);
     } catch {
         return res.status(500).json({ message: 'Something went wrong' });
