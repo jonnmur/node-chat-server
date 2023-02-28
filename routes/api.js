@@ -6,6 +6,7 @@ const UserController = require('../controllers/UserController');
 const MessageController = require('../controllers/MessageController');
 
 // Auth
+router.get('/auth/me', AuthController.me);
 router.post('/auth/register', AuthController.register);
 router.post('/auth/login', AuthController.login);
 router.post('/auth/logout', AuthController.logout);

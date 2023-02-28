@@ -8,6 +8,14 @@ const registerSchema = Joi.object({
     password: Joi.string().min(8).max(40).required(),
 });
 
+const me = async (req, res) => {
+    if (!req.isAuthenticated()) {
+        return res.status(401).json();
+    }
+
+    return res.status(200).json(req.user);
+}
+
 const register = async (req, res) => {
     try {
         const user = await User.findOne({ where: { username: req.body.username } });
@@ -67,6 +75,7 @@ const logout = async (req, res) => {
 }
 
 module.exports = {
+    me,
     register,
     login,
     logout,
