@@ -12,8 +12,16 @@ const index = async (req, res) => {
     }
 
     try {
-        const messages = await Message.findAll({ include: User });
-        return res.send(messages);
+        const messages = await Message.findAll({
+            include: User,
+            limit: req.query.limit ? parseInt(req.query.limit) : null,
+            offset: req.query.offset ? parseInt(req.query.offset) : null,
+            order: [
+                ['created_at', 'DESC']
+            ]
+        });
+
+        return res.send(messages.reverse());
     } catch (error) {
         return res.status(500).json({ message: 'Something went wrong' });
     }
