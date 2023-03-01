@@ -44,13 +44,19 @@ const io = new Server(server, {
 io.on('connection', async (socket) => {
     console.log(socket.handshake.auth.username + ' connected');
 
-    // TODO: first emit all online users, then just emit for every new connected user
+    // Sync connected users list
     const sockets = await io.fetchSockets();
-
+    const users = [];
     sockets.forEach(socket => {
-      io.emit('userConnected', socket.handshake.auth);
+      users.push(socket.handshake.auth);
     });
 
+    io.emit('syncConnectedUsers', users);
+
+    // Send user joined notification to others
+    socket.broadcast.emit('userConnected', socket.handshake.auth);
+
+    // Send user disconnected notification to others
     socket.on('disconnect', () => {
       console.log(socket.handshake.auth.username + ' disconnected');
 
