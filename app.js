@@ -41,11 +41,20 @@ const io = new Server(server, {
     },
 });
 
-io.on('connection', (socket) => {
+io.on('connection', async (socket) => {
     console.log(socket.handshake.auth.username + ' connected');
+
+    // TODO: first emit all online users, then just emit for every new connected user
+    const sockets = await io.fetchSockets();
+
+    sockets.forEach(socket => {
+      io.emit('userConnected', socket.handshake.auth);
+    });
 
     socket.on('disconnect', () => {
       console.log(socket.handshake.auth.username + ' disconnected');
+
+      io.emit('userDisconnected', socket.handshake.auth);
     });
 });
 
