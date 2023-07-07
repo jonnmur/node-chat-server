@@ -57,9 +57,6 @@ const create = async (req, res) => {
                 body: req.body.body.trim(),
                 user_id: req.user.id,
             },
-            { 
-                include: User 
-            },
         );
 
         message.get().User = req.user;
