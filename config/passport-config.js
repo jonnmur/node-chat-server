@@ -27,9 +27,9 @@ passport.use(localStrategy);
 
 const googleStrategy = new GoogleStrategy(
     {
-        clientID: '490077617707-oc04grns3r8kg92eiuum4sggjp4739rj.apps.googleusercontent.com',
-        clientSecret: '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',
-        callbackURL: "http://localhost:3000/api/auth/google/callback"
+        clientID: process.env.GOOGLE_CLIENT_ID,
+        clientSecret: process.env.GOOGLE_CLIENT_SECRET,
+        callbackURL: process.env.GOOGLE_CALLBACK_URL,
     },
     async (accessToken, refreshToken, profile, cb) => {
         // User with google_id found, login
