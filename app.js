@@ -17,7 +17,10 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors({
   credentials: true, 
-  origin: process.env.ALLOWED_CLIENTS.split(',')
+  origin: process.env.ALLOWED_CLIENTS.split(','),
+  methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+  preflightContinue: false,
+  optionsSuccessStatus: 204
 }));
 
 const server = createServer(app);
@@ -42,7 +45,7 @@ const io = new Server(server, {
 });
 
 io.on('connection', async (socket) => {
-    console.log(socket.handshake.auth.username + ' connected');
+    console.log(socket.handshake.auth.email + ' connected');
 
     // Sync connected users list
     const sockets = await io.fetchSockets();
@@ -58,7 +61,7 @@ io.on('connection', async (socket) => {
 
     // Send user disconnected notification to others
     socket.on('disconnect', () => {
-      console.log(socket.handshake.auth.username + ' disconnected');
+      console.log(socket.handshake.auth.email + ' disconnected');
 
       io.emit('userDisconnected', socket.handshake.auth);
     });
