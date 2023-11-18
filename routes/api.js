@@ -10,6 +10,8 @@ router.get('/auth/me', AuthController.me);
 router.post('/auth/register', AuthController.register);
 router.post('/auth/login', AuthController.login);
 router.post('/auth/logout', AuthController.logout);
+router.get('/auth/google', AuthController.googleAuth);
+router.get('/auth/google/callback', AuthController.googleAuthCallback);
 
 // User
 router.get('/user', UserController.index);
