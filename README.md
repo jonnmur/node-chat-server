@@ -5,4 +5,3 @@
 2. Set up google oauth https://console.cloud.google.com/
 3. Set up .env file
 4. Run `docker compose up -d`
-5. Run `npx sequelize-cli db:migrate` 
