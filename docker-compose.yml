@@ -1,0 +1,62 @@
+version: "3"
+
+services:
+  node:
+    image: node-chat
+    container_name: node-chat
+    ports:
+      - "3000:3000"
+    depends_on:
+      - mysql
+      - redis
+    networks:
+      - docker-service
+    environment:
+      DB_HOST: mysql
+      DB_PORT: 3306
+      DB_USER: chat_user
+      DB_PASSWORD: chat_password
+      DB_NAME: node_chat
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      REDIS_PASSWORD:
+    restart: always
+    build: .
+
+  mysql:
+    image: mariadb:latest
+    container_name: mysql
+    ports:
+      - "3306:3306"
+    networks:
+      - docker-service
+    volumes:
+      - ./docker-mysql-db:/var/lib/mysql:rw
+    environment:
+      MYSQL_DATABASE: node_chat
+      MYSQL_USER: chat_user
+      MYSQL_PASSWORD: chat_password
+      MYSQL_ROOT_PASSWORD: root_password
+    restart: always
+
+  redis:
+    image: redis:6.2-alpine
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - docker-service
+    command: redis-server --save 20 1 --loglevel warning
+    volumes: 
+      - ./docker-redis-cache:/data
+    restart: always
+
+volumes:
+  docker-redis-cache:
+    driver: local
+  docker-mysql-db:
+    driver: local
+
+networks:
+  docker-service:
+    driver: bridge
