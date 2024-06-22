@@ -1,9 +1,9 @@
-const passport = require('passport');
-const LocalStrategy = require('passport-local').Strategy;
-const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const bcrypt = require('bcrypt');
-const User = require('../models/User');
-const { Op } = require("sequelize");
+import passport from 'passport';
+import { Strategy as LocalStrategy} from 'passport-local';
+import { Strategy as GoogleStrategy} from 'passport-google-oauth20';
+import bcrypt from 'bcrypt';
+import { User } from '../models/User.js';
+import { Op } from 'sequelize';
 
 const localStrategy  = new LocalStrategy({ usernameField: 'email' }, async (email, password, done) => {
     const user = await User.scope('withPassword').findOne({ where: { email: email } });
