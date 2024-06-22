@@ -1,6 +1,6 @@
-const User = require('../models/User');
+import { User } from '../models/User.js';
 
-const index = async (req, res) => {
+export const index = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -13,7 +13,7 @@ const index = async (req, res) => {
     }
 }
 
-const show = async (req, res) => {
+export const show = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -24,9 +24,4 @@ const show = async (req, res) => {
     } catch (error) {
         return res.status(500).json({ message: 'Something went wrong' });
     }
-}
-
-module.exports = {
-    index,
-    show,
 }

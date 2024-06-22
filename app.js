@@ -1,17 +1,17 @@
-require('dotenv').config();
-require('./config/passport-config');
-const express = require('express');
-const session = require('express-session');
-const routes = require('./routes/api');
-const passport = require('passport');
-const redisClient = require('./config/redis-config');
-const connectRedis = require('connect-redis');
-const cors = require('cors');
-const { createServer  } = require('http');
-const { Server } = require('socket.io');
+import 'dotenv/config';
+import './config/passport-config.js';
+import express from 'express';
+import session from 'express-session';
+import { router } from './routes/api.js';
+import passport from 'passport';
+import { redisClient } from './config/redis-config.js';
+import connectRedis from 'connect-redis';
+import cors from 'cors';
+import { createServer } from 'http';
+import { Server } from 'socket.io';
 
 // Server
-const app = express();
+export const app = express();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
@@ -28,12 +28,15 @@ const server = createServer(app);
 
 // Session
 const RedisStore = connectRedis(session);
-app.use(session({
+
+app.use(
+  session({
     store: new RedisStore({ client: redisClient }),
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false
-}))
+  })
+);
 //
 
 // Socket io
@@ -76,9 +79,7 @@ app.use(passport.session());
 //
 
 // Routes
-app.use('/api', routes);
+app.use('/api', router);
 //
 
 server.listen(3000);
-
-module.exports = app;

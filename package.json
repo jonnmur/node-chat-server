@@ -6,6 +6,7 @@
   "scripts": {
     "start": "npx sequelize-cli db:migrate && node app"
   },
+  "type": "module",
   "author": "",
   "license": "ISC",
   "dependencies": {

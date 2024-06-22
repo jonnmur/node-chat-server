@@ -1,7 +1,7 @@
-const db = require('../config/sequalize-config');
-const Sequelize = require('sequelize');
+import { sequelize as db } from '../config/sequalize-config.js';
+import Sequelize from 'sequelize';
 
-const Message = db.define('Message', {
+export const Message = db.define('Message', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -19,5 +19,3 @@ const Message = db.define('Message', {
     createdAt: 'created_at',
     updatedAt: 'updated_at',
 });
-
-module.exports = Message;
