@@ -1,7 +1,7 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const passport = require('passport');
-const Joi = require('joi');
+import { User } from '../models/User.js';
+import bcrypt from 'bcrypt';
+import passport from 'passport';
+import Joi from 'joi';
 
 const registerSchema = Joi.object({
     email: Joi.string().email().min(4).max(40).required(),
@@ -9,7 +9,7 @@ const registerSchema = Joi.object({
     password: Joi.string().min(8).max(40).required(),
 });
 
-const me = async (req, res) => {
+export const me = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -17,7 +17,7 @@ const me = async (req, res) => {
     return res.status(200).json(req.user);
 }
 
-const register = async (req, res) => {
+export const register = async (req, res) => {
     try {
         const user = await User.findOne({ where: { email: req.body.email } });
 
@@ -44,7 +44,7 @@ const register = async (req, res) => {
     }
 }
 
-const login = (req, res, next) => {
+export const login = (req, res, next) => {
     const handler = passport.authenticate('local', (error, user, info) => {
         if (error) {
             return next(error);
@@ -62,7 +62,7 @@ const login = (req, res, next) => {
     handler(req, res, next);
 }
 
-const logout = async (req, res) => {
+export const logout = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -76,7 +76,7 @@ const logout = async (req, res) => {
   });
 }
 
-const googleAuth = async (req, res, next) => {
+export const googleAuth = async (req, res, next) => {
     const handler = passport.authenticate('google', { scope: ['email', 'profile'] });
     
     req.session.client = req.query.client;
@@ -84,17 +84,8 @@ const googleAuth = async (req, res, next) => {
     handler(req, res, next);
 }
 
-const googleAuthCallback = async (req, res, next) => {
+export const googleAuthCallback = async (req, res, next) => {
     const handler = passport.authenticate('google', { failureRedirect: req.session.client, successRedirect: req.session.client });
 
     handler(req, res, next);
-}
-
-module.exports = {
-    me,
-    register,
-    login,
-    logout,
-    googleAuth,
-    googleAuthCallback,
 }

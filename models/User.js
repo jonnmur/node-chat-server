@@ -1,8 +1,9 @@
-const db = require('../config/sequalize-config');
-const Sequelize = require('sequelize');
-const Message = require('./Message')
+import { sequelize as db } from '../config/sequalize-config.js';
 
-const User = db.define('User', {
+import Sequelize from 'sequelize';
+import { Message } from './Message.js';
+
+export const User = db.define('User', {
     id: {
         type: Sequelize.INTEGER,
         primaryKey: true,
@@ -41,5 +42,3 @@ User.hasMany(Message, {
 });
 
 Message.belongsTo(User, { foreignKey: 'user_id' });
-
-module.exports = User;

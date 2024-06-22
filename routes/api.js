@@ -1,9 +1,10 @@
-const express = require('express');
-const router = express.Router();
+import Router from 'express';
 
-const AuthController = require('../controllers/AuthController');
-const UserController = require('../controllers/UserController');
-const MessageController = require('../controllers/MessageController');
+import * as AuthController from '../controllers/AuthController.js'
+import * as UserController from '../controllers/UserController.js'
+import * as MessageController from '../controllers/MessageController.js'
+
+export const router = new Router();
 
 // Auth
 router.get('/auth/me', AuthController.me);
@@ -21,5 +22,3 @@ router.get('/user/:id', UserController.show);
 router.get('/message/', MessageController.index);
 router.get('/message/:id', MessageController.show);
 router.post('/message/', MessageController.create);
-
-module.exports = router;

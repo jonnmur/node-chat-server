@@ -1,12 +1,12 @@
-const User = require('../models/User');
-const Message = require('../models/Message');
-const Joi = require('joi');
+import { User } from '../models/User.js';
+import { Message } from'../models/Message.js';
+import Joi from 'joi';
 
 const createSchema = Joi.object({
     body: Joi.string().trim().required(),
 });
 
-const index = async (req, res) => {
+export const index = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -27,7 +27,7 @@ const index = async (req, res) => {
     }
 }
 
-const show = async (req, res) => {
+export const show = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -40,7 +40,7 @@ const show = async (req, res) => {
     }
 }
 
-const create = async (req, res) => {
+export const create = async (req, res) => {
     if (!req.isAuthenticated()) {
         return res.status(401).json();
     }
@@ -68,10 +68,4 @@ const create = async (req, res) => {
         console.log(error)
         return res.status(500).json({ message: 'Something went wrong' });
     }
-}
-
-module.exports = {
-    index,
-    show,
-    create,
 }
